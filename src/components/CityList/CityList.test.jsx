@@ -3,16 +3,17 @@ import {fireEvent, render} from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 const cities=[
-    {city: "Buenos aires", country: "Argentina"},
-    {city: "Ciudad de México", country: "México"},
+    {city: "Buenos aires", country: "Argentina", countryCode: "AR"},
+    {city: "Ciudad de México", country: "México", countryCode: "MX"},
+    {city: "Varsovia", country: "Polonia", countryCode: "PL"},
 ]
 test("CityList renders", async() => {
     
-    const { findAllByRole } = render (<CityList cities={cities}  />)
+    const { findAllByRole } = render (<CityList cities={cities} onClickCity = {() => {} }/>)
 
-    const items= await findAllByRole ("listitem")
+    const items= await findAllByRole ("button")
 
-    expect(items).toHaveLength(2);
+    expect(items).toHaveLength(3);
 })
 
 test ("CityList click on item", async () => {
@@ -21,9 +22,9 @@ test ("CityList click on item", async () => {
 
     const fnClickOnItem = jest.fn()
 
-    const {findAllByRole} = render (<CityList cities= {cities} onClickCity = {fnClickOnItem}/>)
+    const {findAllByRole} =await render (<CityList cities= {cities} onClickCity = {fnClickOnItem}/>)
 
-    const items = await findAllByRole ("listitem")
+    const items = await findAllByRole ("button")
 
     //ahora simulamos la función con fireevent
     //es parte de la librería 

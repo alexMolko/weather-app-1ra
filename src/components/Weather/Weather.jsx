@@ -1,48 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Typography } from '@material-ui/core'
-import {WiCloud,
-    WiDayCloudy,
-    WiDayFog,
-    WiDaySunny,
-    WiRain
-} from 'react-icons/wi'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import IconState, {validValues} from './../IconState'
 import { IconContext } from 'react-icons/lib'
+import Skeleton from '@material-ui/lab/Skeleton'
 
-const validValues = [
-    "cloudy",
-    "cloud",
-    "fog",
-    "sunny",
-    "rain",
-]
-const stateByName = {
-    cloudy : WiDayCloudy,
-    cloud: WiCloud,
-    fog: WiDayFog,
-    sunny: WiDaySunny,
-    rain: WiRain
-}
-
-const renderState = state => {
-    let Icon=  stateByName[state] // se valida el undefined por medio de proptypes
-    return <Icon/>
-}
 const Weather = ({temperature,state}) => {
     return (
-        <>
-            <IconContext.Provider value={{size  : "5em"}}>
-                {renderState(state) }
-            </IconContext.Provider>
-            <Typography display="inline" variant="h3">{temperature}</Typography>
-        </>
+        <Grid container item
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={1}>
+            <IconContext.Provider value={{size  : "6em"}}>
+                    {
+                        state ?
+                        <IconState state={state} />
+                        :
+                        <Skeleton variant="circle" height = {80} width={80}></Skeleton>
+                    }
+                </IconContext.Provider>
+                
+            {
+                temperature?
+                <Typography display="inline" variant="h2">{temperature}</Typography>
+                :
+                <Skeleton variant="rect" height = {80} width={80}></Skeleton>
+            }
+        </Grid>
     )
 }
 
 Weather.propTypes = {
-    temperature : PropTypes.number.isRequired,
-    state : PropTypes.oneOf(validValues).isRequired,
-
+    temperature : PropTypes.number,
+    state : PropTypes.oneOf(validValues),
 }
 
 export default Weather
