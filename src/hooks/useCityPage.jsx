@@ -5,7 +5,7 @@ import { getForecastUrl } from '../utils/urls'
 import getForecastItem from '../utils/transform/getForecastItem'
 import { getCityCode } from '../utils/utils'
 
-const useCityPage = (onSetForecast,allForeCast) => {  
+const useCityPage = (allForeCast,actions) => {  
    // const [data, setData] = useState(null)
 
     const {city, countryCode} =  useParams()
@@ -19,7 +19,8 @@ const useCityPage = (onSetForecast,allForeCast) => {
                 {
                     const {data} = await axios.get(url)
                     const forecastItemAux = getForecastItem(data)
-                    onSetForecast({[cityCode]:forecastItemAux})
+                    //onSetForecast({[cityCode]:forecastItemAux})
+                    actions({type : 'SET_FORECAST_DATA', payload : {[cityCode]:forecastItemAux}})
                 }
             catch (error){
                 console.log(error)
@@ -32,7 +33,7 @@ const useCityPage = (onSetForecast,allForeCast) => {
 
         
 
-    }, [city, countryCode,onSetForecast,allForeCast])
+    }, [city, countryCode,actions,allForeCast])
 
     return  {city, countryCode}
 }

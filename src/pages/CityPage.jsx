@@ -11,17 +11,22 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import useCityList from '../hooks/useCityList'
 import { getCityCode } from '../utils/utils'
 import {getCountryNameByCode} from '../utils/serviceCities'
+import { useWeatherDispatchContext, useWeatherStateContext } from '../WeatherContext'
 
-const CityPage = ({data,actions}) => {
-    const {onSetAllWeather,onSetForecast} =actions
+const CityPage = () => {
+    //const {onSetAllWeather,onSetForecast} =actions
+    const actions = useWeatherDispatchContext()
+    const data= useWeatherStateContext()
+
     const {allWeather,allForeCast}= data
-    const {city, countryCode} = useCityPage(onSetForecast,allForeCast)
+    const {city, countryCode} = useCityPage(allForeCast,actions)
     const cities = useMemo(() => ([{city, countryCode}]),[city,countryCode])
     
-    useCityList(cities,allWeather,onSetAllWeather)
+    useCityList(cities,allWeather,actions)
+
     const cityCode =getCityCode(city,countryCode)
-    const weather = allWeather[cityCode]
-     
+
+    const weather = allWeather[cityCode]    
     const forecastData =  allForeCast[cityCode]
 
     const country = getCountryNameByCode(countryCode)

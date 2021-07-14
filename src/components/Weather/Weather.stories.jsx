@@ -5,6 +5,9 @@ export default {
     component: Weather
 }
 
-export const WeatherExample= () => <Weather temperature={10} state= "clear"/>
+const Template = (args) => <Weather {...args}/>
 
-export const WeatherExample2= () => <Weather temperature={10} state= "clouds"/>
+export const WeatherExample= () => Template.bind({})
+WeatherExample.args = {temperature: 10 ,state:  "clouds"}
+
+

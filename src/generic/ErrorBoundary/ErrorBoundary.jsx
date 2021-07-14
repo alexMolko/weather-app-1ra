@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends PureComponent {
     static propTypes = {
         prop: PropTypes
     }
